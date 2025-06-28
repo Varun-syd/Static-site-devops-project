@@ -21,9 +21,10 @@ jobs:
 
     - name: Deploy to EC2 via SSH
       run: |
-         ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-         if [ ! -d ~/yourrepo/.git ]; then
-         git clone https://github.com/Varun-syd/Static-site-devops-project.git ~/yourrepo
-         fi
-         bash ~/pull-latest.sh "${{ github.ref_name }}"
-         EOF
+       ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+       if [ ! -d ~/yourrepo/.git ]; then
+       rm -rf ~/yourrepo
+       git clone https://github.com/Varun-syd/Static-site-devops-project.git ~/yourrepo
+       fi
+       bash ~/pull-latest.sh "${{ github.ref_name }}"
+       EOF

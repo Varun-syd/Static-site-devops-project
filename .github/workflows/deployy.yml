@@ -6,7 +6,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ec2-user
 
     steps:
     - name: Checkout code
@@ -14,12 +14,12 @@ jobs:
 
     - name: Set up SSH key
       run: |
-        echo -e "${{ secrets.EC2_SSH_KEY }}" > Linux.pem
-        chmod 600 key.pem
+        echo -e "${{ secrets.EC2_SSH_KEY }}" > key.pem
+        chmod 400 key.pem
 
     - name: Deploy to EC2 via SSH
       run: |
-        ssh -o StrictHostKeyChecking=no -i Linux.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+        ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
           cd ~/Static-site-devops-project  # Change to your folder on EC2
           git pull origin main
         EOF

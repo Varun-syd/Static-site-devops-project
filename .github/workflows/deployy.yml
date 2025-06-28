@@ -19,7 +19,10 @@ jobs:
 
     - name: Deploy to EC2 via SSH
       run: |
-        ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-          cd ~/Static-site-devops-project  # Change to your folder on EC2
-          git pull origin main
-        EOF
+         ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+         if [ ! -d ~/yourrepo/.git ]; then
+         git clone https://github.com/Varun-syd/Static-site-devops-project.git ~/yourrepo
+         fi
+         cd ~/yourrepo
+         git pull origin main
+         EOF

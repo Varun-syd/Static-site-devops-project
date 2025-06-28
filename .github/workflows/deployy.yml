@@ -2,7 +2,9 @@ name: Deploy to EC2
 
 on:
   push:
-    branches: [main]  # Change if you're using another branch
+    branches: 
+      - main  # Change if you're using another branch
+      - dev
 
 jobs:
   deploy:
@@ -23,6 +25,5 @@ jobs:
          if [ ! -d ~/yourrepo/.git ]; then
          git clone https://github.com/Varun-syd/Static-site-devops-project.git ~/yourrepo
          fi
-         cd ~/yourrepo
-         git pull origin main
+         bash ~/pull-latest.sh "${{ github.ref_name }}"
          EOF
